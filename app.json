@@ -62,9 +62,6 @@
       "domain": "jspcoders.tech",
       "privacyPolicyUrl": "https://jspcoders.tech/privacy",
       "termsOfServiceUrl": "https://jspcoders.tech/terms"
-    },
-    "plugins": [
-      "expo-router"
-    ]
+    }
   }
 }
