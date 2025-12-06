@@ -7,13 +7,20 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "scheme": "jspcoders",
+    "owner": "jspcoders",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "tech.jspcoders.jobfinder",
+      "associatedDomains": [
+        "applinks:jspcoders.tech",
+        "applinks:www.jspcoders.tech"
+      ]
     },
     "android": {
       "adaptiveIcon": {
@@ -21,10 +28,43 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "tech.jspcoders.jobfinder",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "jspcoders.tech",
+              "pathPrefix": "/jobs"
+            },
+            {
+              "scheme": "https",
+              "host": "www.jspcoders.tech",
+              "pathPrefix": "/jobs"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "static"
+    },
+    "extra": {
+      "domain": "jspcoders.tech",
+      "privacyPolicyUrl": "https://jspcoders.tech/privacy",
+      "termsOfServiceUrl": "https://jspcoders.tech/terms"
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
