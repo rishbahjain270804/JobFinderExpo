@@ -478,6 +478,10 @@ export default function ManualIntakeScreen({navigation}: Props) {
 
   const handleComplete = async () => {
     try {
+      // Clear all old job caches since we have a new user profile
+      const {clearAllJobCaches} = require('../services/cacheManager');
+      await clearAllJobCaches();
+      
       await AsyncStorage.multiSet([
         ['profileManualData', JSON.stringify(answers)],
         ['hasCompletedProfileEntry', 'manual'],
