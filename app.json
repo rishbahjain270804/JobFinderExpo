@@ -56,7 +56,7 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro",
-      "output": "static"
+      "output": "single"
     },
     "extra": {
       "domain": "jspcoders.tech",

@@ -336,7 +336,10 @@ def scrape_jobs():
 export async function getCachedOrFetchJobs(
   profile: UserProfile
 ): Promise<RealTimeJob[]> {
-  const CACHE_KEY = 'cached_jobs';
+  // Create user-specific cache key based on search criteria
+  const searchQuery = buildSearchQuery(profile);
+  const location = profile.location || profile.preferredLocation || 'remote';
+  const CACHE_KEY = `cached_jobs_${searchQuery.toLowerCase().replace(/\s+/g, '_')}_${location.toLowerCase().replace(/\s+/g, '_')}`;
   const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 hours
 
   try {
@@ -345,17 +348,17 @@ export async function getCachedOrFetchJobs(
     const cachedData = await AsyncStorage.getItem(CACHE_KEY);
     
     if (cachedData) {
-      const {jobs, timestamp} = JSON.parse(cachedData);
+      const {jobs, timestamp, profileSearch} = JSON.parse(cachedData);
       const now = Date.now();
       
-      console.log(`Cache check: ${jobs.length} jobs, age: ${Math.round((now - timestamp) / 1000 / 60)} minutes`);
+      console.log(`Cache check for "${searchQuery}" in "${location}": ${jobs.length} jobs, age: ${Math.round((now - timestamp) / 1000 / 60)} minutes`);
       
-      // Validate cache: must have jobs and be within duration
-      if (jobs.length > 0 && now - timestamp < CACHE_DURATION) {
-        console.log('Using cached job data');
+      // Validate cache: must have jobs, be within duration, and match current search
+      if (jobs.length > 0 && now - timestamp < CACHE_DURATION && profileSearch === searchQuery) {
+        console.log('Using cached job data for this user profile');
         return jobs;
       } else {
-        console.log('Cache invalid or empty, fetching fresh data...');
+        console.log('Cache expired or search changed, fetching fresh data...');
       }
     }
 
@@ -370,8 +373,10 @@ export async function getCachedOrFetchJobs(
       await AsyncStorage.setItem(CACHE_KEY, JSON.stringify({
         jobs: freshJobs,
         timestamp: Date.now(),
+        profileSearch: searchQuery,
+        location: location,
       }));
-      console.log('Jobs cached successfully');
+      console.log(`Jobs cached successfully for search: "${searchQuery}" in "${location}"`);
     } else {
       console.log('Not caching empty results');
     }
