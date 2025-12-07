@@ -11,11 +11,11 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Preload'>;
 const {width} = Dimensions.get('window');
 
 const PROCESSING_STEPS = [
-  {id: 1, label: 'Analyzing your profile', icon: 'user', duration: 1200},
-  {id: 2, label: 'Matching skills & experience', icon: 'star', duration: 1500},
-  {id: 3, label: 'Finding opportunities', icon: 'search', duration: 1800},
-  {id: 4, label: 'Ranking best matches', icon: 'trending-up', duration: 1400},
-  {id: 5, label: 'Preparing results', icon: 'check-circle', duration: 1000},
+  {id: 1, label: 'Analyzing your profile', icon: 'user', duration: 600},
+  {id: 2, label: 'Matching skills & experience', icon: 'star', duration: 700},
+  {id: 3, label: 'Finding opportunities', icon: 'search', duration: 800},
+  {id: 4, label: 'Ranking best matches', icon: 'trending-up', duration: 600},
+  {id: 5, label: 'Preparing results', icon: 'check-circle', duration: 500},
 ];
 
 export default function PreloadScreen({navigation}: Props) {

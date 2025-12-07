@@ -6,6 +6,7 @@ import {RootStackParamList} from '../navigation/AppNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Feather} from '@expo/vector-icons';
 import {matchJobsToProfile, getRecommendationMessage, Job, UserProfile} from '../services/jobMatcher';
+import JobCardSkeleton from '../components/JobCardSkeleton';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -111,12 +112,19 @@ export default function HomeScreen({navigation}: Props) {
 
   if (loading) {
     return (
-      <View style={[styles.screen, {justifyContent: 'center', alignItems: 'center', padding: 24}]}>
-        <Animated.View style={{opacity: fadeAnim}}>
-          <Feather name="loader" size={48} color={colors.accent} />
-        </Animated.View>
-        <Text style={styles.loadingText}>Finding your perfect matches...</Text>
-        <Text style={styles.loadingSubtext}>Analyzing {profile?.desiredRole || 'opportunities'}</Text>
+      <View style={styles.screen}>
+        <View style={styles.header}>
+          <View style={{flex: 1}}>
+            <Text style={styles.greeting}>Loading your matches... ✨</Text>
+            <Text style={styles.subtitle}>Analyzing the best opportunities for you</Text>
+          </View>
+        </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <JobCardSkeleton />
+          <JobCardSkeleton />
+          <JobCardSkeleton />
+          <JobCardSkeleton />
+        </ScrollView>
       </View>
     );
   }
@@ -162,6 +170,12 @@ export default function HomeScreen({navigation}: Props) {
             </Text>
           </View>
           <View style={styles.headerButtons}>
+            <Pressable
+              style={styles.headerButton}
+              onPress={() => navigation.navigate('ManualIntake')}
+            >
+              <Feather name="user" size={22} color={colors.accent} />
+            </Pressable>
             <Pressable
               style={styles.headerButton}
               onPress={() => navigation.navigate('AppliedJobs')}
